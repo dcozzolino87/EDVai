@@ -53,7 +53,7 @@ df_rental = df_rental.select(
     col("location_latitude"),
     col("location_longitude"),
     col("state_name"),
-    col("owner_id"),
+    col("owner_id").cast("int"),
     col("make"),
     col("model"),
     col("type")
@@ -84,5 +84,11 @@ df_filtered_texas = df_filtered_texas.drop("country") \
 ## Creo la vista de la BD
 df_filtered_texas.createOrReplaceTempView("v_analytics_data")
 
+## Creo el DF para el Insert
+df_insert_result = spark.sql("select fueltype as fuelType, cast(rating as int), cast(rentertripstaken as int) as renterTripsTaken, cast(reviewcount as int) as reviewCount, city, state_name, cast(owner_id as int), cast(rate_daily as int), make, model, cast(year as int) from v_analytics_data")
+
+## Creo la vista para el insert
+df_insert_result.createOrReplaceTempView("v_insert")
+
 ## Hago el insert en la BD
-spark.sql("insert into car_rental_db.car_rental_analytics select * from v_analytics_data")
+spark.sql("insert into car_rental_db.car_rental_analytics select * from v_insert")
