@@ -1,0 +1,6 @@
+# Creo la Base de Datos
+create database anac;
+
+# Creo las tablas
+create table anac.vuelos_realizados(fecha date, horaUTC string, clase_vuelo string, clasificacion_vuelo string, tipo_movimiento string, aeropuerto string, origen_destino string, aerolinea_nombre string, aeronave string, pasajeros int) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',';
+create table anac.aeropuertos_detalle(aeropuerto string, oac string, iata string, tipo string, denomiacion string, coordenadas string, latitud string, longitud string, elev float, uom_elev string, ref string, distancia_ref float, direccion_ref string, condicion string, control string, region string, uso string, trafico string, sna string, concesionado string, provincia string) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',';
