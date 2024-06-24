@@ -1,0 +1,5 @@
+# Creo la Base de Datos
+create database car_rental_db;
+
+# Creo la tabla
+create table car_rental_db.car_rental_analytics (fuelType string, rating int, renterTripsTaken int, reviewCount int, city string, state_name string, owner_id int, rate_daily int, make string, model string, year int) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',';
