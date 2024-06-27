@@ -1,0 +1,45 @@
+## Punto 5
+
+## Ejercicio A
+SELECT COUNT(*) AS cantidad_alquileres
+FROM car_rental_db.car_rental_analytics cra
+WHERE (fuelType = 'HYBRID' OR fuelType = 'ELECTRIC')
+AND rating >= 4;
+
+## Ejercicio B
+SELECT state_name as estado, COUNT(*) AS cantidad_alquileres
+FROM car_rental_db.car_rental_analytics
+GROUP BY state_name
+ORDER BY cantidad_alquileres ASC
+LIMIT 5;
+
+## Ejercicio C
+SELECT make AS fabricante, model as modelo, COUNT(*) AS cantidad_alquileres
+FROM car_rental_db.car_rental_analytics
+GROUP BY make, model
+ORDER BY cantidad_alquileres DESC
+LIMIT 10;
+
+## Ejercicio D
+SELECT year AS ano_fabricacion, COUNT(*) AS cantidad_alquileres
+FROM car_rental_db.car_rental_analytics
+WHERE year BETWEEN 2010 AND 2015
+GROUP BY year
+ORDER BY year;
+
+## Ejercicio F
+SELECT city as ciudad, COUNT(*) AS cantidad_alquileres
+FROM car_rental_db.car_rental_analytics
+WHERE fuelType IN ('HYBRID', 'ELECTRIC')
+GROUP BY city
+ORDER BY cantidad_alquileres DESC
+LIMIT 5;
+
+## Ejercicio G
+SELECT fuelType as tipo_combustible, AVG(reviewCount) AS promedio_reviews, SUM(reviewCount) AS total_reviews
+FROM car_rental_db.car_rental_analytics
+WHERE fuelType IN ('GASOLINE', 'HYBRID', 'ELECTRIC', 'DIESEL') AND reviewCount IS NOT NULL
+GROUP BY fuelType
+ORDER BY promedio_reviews DESC;
+
+
