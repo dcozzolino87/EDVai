@@ -1,0 +1,10 @@
+Conclusiones:
+
+    • Se realizaron alrededor de 58 mil vuelos entre las fechas 01/01/2021 y 30/06/2022.
+    • Se puede ver con facilidad información relevante correspondiente a los vuelos realizados entre las fechas 01/01/2021 y 30/06/2022, como la ciudad y aeropuerto de salida y arribo, cantidad de pasajeros, aerolínea, aeronave, etc.
+    • La aerolínea que mas pasajeros transporto entre las fechas antes mencionadas fue Aerolineas Argentinas, con casi 7.48 Millones de pasajeros, seguida de JetSmart con casi 1.51 Millones, y Flybondi con casi 1.48 Millones de pasajeros.
+    • La aeronave mas utilizada entre dichas fechas, despegando desde Buenos Aires (Ciudad Autónoma de Buenos Aires y Provincia) fue la EMB-ERJ190100IG con casi 12 mil vuelos, seguida de la CE-150-L con casi 8 mil vuelos, y la CE-152 también con casi 8 mil vuelos.
+
+Teniendo en cuenta estas conclusiones y sumando otras que podemos obtener consultando nuestra base de datos, se podría presentar un análisis 
+de la demanda de vuelos para predecir comportamientos futuros, así como también lograr un mejor uso de los recursos (aeronaves y aeropuertos, 
+con un mantenimiento mas optimo) y mejorar el flujo de las rutas aéreas.
