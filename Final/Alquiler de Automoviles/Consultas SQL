@@ -27,7 +27,7 @@ WHERE year BETWEEN 2010 AND 2015
 GROUP BY year
 ORDER BY year;
 
-## Ejercicio F
+## Ejercicio E
 SELECT city as ciudad, COUNT(*) AS cantidad_alquileres
 FROM car_rental_db.car_rental_analytics
 WHERE fuelType IN ('HYBRID', 'ELECTRIC')
@@ -35,11 +35,8 @@ GROUP BY city
 ORDER BY cantidad_alquileres DESC
 LIMIT 5;
 
-## Ejercicio G
-SELECT fuelType as tipo_combustible, AVG(reviewCount) AS promedio_reviews, SUM(reviewCount) AS total_reviews
-FROM car_rental_db.car_rental_analytics
-WHERE fuelType IN ('GASOLINE', 'HYBRID', 'ELECTRIC', 'DIESEL') AND reviewCount IS NOT NULL
-GROUP BY fuelType
+## Ejercicio F
+SELECT fuelType, AVG(reviewCount) as promedio_reviews
+FROM car_rental_db.car_rental_analytics cra 
+GROUP BY fueltype 
 ORDER BY promedio_reviews DESC;
-
-
