@@ -1,0 +1,21 @@
+with salidas as (
+	SELECT vr.fecha, vr.horautc, vr.aeropuerto as aeropuerto_salida, ad.ref as ciudad_salida,
+	vr.origen_destino as codigo_aeropuerto_arribo, ad2.ref as ciudad_arribo, COALESCE (vr.pasajeros,0) as pasajeros
+	FROM anac.vuelos_realizados vr
+	INNER JOIN anac.aeropuertos_detalle ad on ad.aeropuerto = vr.aeropuerto
+	INNER JOIN anac.aeropuertos_detalle ad2 on ad2.aeropuerto = vr.origen_destino
+	WHERE vr.tipo_movimiento = 'Despegue'
+), 
+arribos as (
+	SELECT vr.fecha, vr.horautc, vr.origen_destino as aeropuerto_salida, ad.ref as ciudad_salida,
+	vr.aeropuerto as codigo_aeropuerto_arribo, ad2.ref as ciudad_arribo, COALESCE (vr.pasajeros,0) as pasajeros
+	FROM anac.vuelos_realizados vr
+	INNER JOIN anac.aeropuertos_detalle ad on ad.aeropuerto = vr.aeropuerto
+	INNER JOIN anac.aeropuertos_detalle ad2 on ad2.aeropuerto = vr.origen_destino
+	WHERE vr.tipo_movimiento = 'Aterrizaje'
+) 
+SELECT * FROM salidas
+UNION ALL
+SELECT * FROM arribos
+WHERE fecha BETWEEN '2021-01-01' AND '2022-06-30'
+ORDER BY fecha DESC
