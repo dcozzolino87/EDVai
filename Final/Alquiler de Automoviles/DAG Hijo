@@ -9,7 +9,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id='ETL_dag_hijo',
+    dag_id='dag_hijo',
     default_args=default_args,
     schedule_interval="@daily",
     start_date=days_ago(2),
@@ -24,7 +24,7 @@ with DAG(
 
     transform_data = BashOperator(
         task_id='transform',
-        bash_command='ssh hadoop@172.17.0.2 /home/hadoop/spark/bin/spark-submit --files /home/hadoop/hive/conf/hive-site.xml /home/hadoop/scripts/transform.py',
+        bash_command='/home/hadoop/spark/bin/spark-submit --files /home/hadoop/hive/conf/hive-site.xml /home/hadoop/scripts/transform_car_rental.py',
         dag=dag
     )
 
@@ -33,6 +33,3 @@ with DAG(
     )
 
     comienzo >> transform_data >> fin
-
-if __name__ == "__main__":
-    dag.cli()
