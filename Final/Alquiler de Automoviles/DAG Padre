@@ -29,7 +29,7 @@ with DAG(
 
     ejecucion_dag_hijo = TriggerDagRunOperator(
         task_id='ejecucion_dag_hijo',
-        trigger_dag_id='dag_hijo'
+        trigger_dag_id='dag_hijo',
         execution_date = "{{ ds }}",
         reset_dag_run = True,
         poke_interval = 30,
