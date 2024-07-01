@@ -10,7 +10,7 @@ default_args = {
 }
 
 with DAG(
-    dag_id='ETL_dag_padre',
+    dag_id='dag_padre',
     default_args=default_args,
     schedule_interval="@daily",
     start_date=days_ago(2),
@@ -25,7 +25,7 @@ with DAG(
 
     ingest = BashOperator(
         task_id='ingest',
-        bash_command='ssh hadoop@172.17.0.2 /usr/bin/sh /home/hadoop/scripts/ingest_car_rental.sh ',
+        bash_command='/usr/bin/sh /home/hadoop/scripts/ingest_car_rental.sh ',
     )
 
     ejecucion_dag_hijo = TriggerDagRunOperator(
