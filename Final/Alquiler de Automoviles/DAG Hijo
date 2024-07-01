@@ -33,3 +33,8 @@ with DAG(
     )
 
     comienzo >> transform_data >> fin
+
+
+if __name__ == "__main__":
+    dag.cli()
+
