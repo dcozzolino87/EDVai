@@ -20,18 +20,20 @@ with DAG(
 ) as dag:
 
     comienzo = DummyOperator(
-        task_id='Comienzo',
+        task_id='Comienzo'
     )
 
-    ingesta_datos = BashOperator(
-        task_id='ingesta_datos',
-        bash_command='ssh hadoop@172.17.0.2 /usr/bin/sh /home/hadoop/scripts/ingest.sh ',
-        dag=dag
+    ingest = BashOperator(
+        task_id='ingest',
+        bash_command='ssh hadoop@172.17.0.2 /usr/bin/sh /home/hadoop/scripts/ingest_car_rental.sh ',
     )
 
-    children_dag_trigger = TriggerDagRunOperator(
-        task_id='ETL_Trigger_dag_hijo',
-        trigger_dag_id='ETL_dag_hijo',
+    ejecucion_dag_hijo = TriggerDagRunOperator(
+        task_id='ejecucion_dag_hijo',
+        trigger_dag_id='dag_hijo'
+        execution_date = "{{ ds }}",
+        reset_dag_run = True,
+        poke_interval = 30,
         dag=dag
     )
 
@@ -39,7 +41,7 @@ with DAG(
         task_id='fin',
     )
 
-    comienzo >> ingesta_datos >> children_dag_trigger >> fin
+    comienzo >> ingest >> ejecucion_dag_hijo >> fin
 
 if __name__ == "__main__":
     dag.cli()
