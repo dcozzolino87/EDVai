@@ -15,7 +15,6 @@ with DAG(
     schedule_interval="@daily",
     start_date=days_ago(2),
     dagrun_timeout=timedelta(minutes=60),
-    catchup=False,
     tags=['ingest']
 ) as dag:
 
@@ -34,7 +33,6 @@ with DAG(
         execution_date = "{{ ds }}",
         reset_dag_run = True,
         poke_interval = 30,
-        dag=dag
     )
 
     fin = DummyOperator(
