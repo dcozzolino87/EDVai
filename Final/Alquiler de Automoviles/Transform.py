@@ -15,8 +15,6 @@ df_georef = spark.read.option("delimiter", ";").option("header","true").csv("/in
 
 ## Modifico los nombres de las columnas segun los requerimientos, que no contengan puntos y espacios por ej, o que no sean nombres largos
 df_rental = df_rental.withColumnRenamed("fuelType", "fueltype") \
-    .withColumnRenamed("renterTripsTaken", "rentertripstaken") \
-    .withColumnRenamed("reviewCount", "reviewcount") \
     .withColumnRenamed("location.city", "city") \
     .withColumnRenamed("location.country", "country") \
     .withColumnRenamed("location.latitude", "location_latitude") \
@@ -40,31 +38,12 @@ df_georef = df_georef.withColumnRenamed("Geo Point", "geo_point") \
     .withColumnRenamed("State FIPS Code", "state_fips_code") \
     .withColumnRenamed("State GNIS Code", "state_gnis_code")
     
-## Selecciono y casteo las columnas necesarias
-df_rental = df_rental.select(
-    round(col("rating"), 1).cast("int").alias("rating"),
-    col("rentertripstaken").cast("int"),
-    col("reviewcount").cast("int"),
-    col("rate_daily").cast("int"),
-    col("year").cast("int"),
-    col("fueltype"),
-    col("city"),
-    col("country"),
-    col("location_latitude"),
-    col("location_longitude"),
-    col("state_name"),
-    col("owner_id").cast("int"),
-    col("make"),
-    col("model"),
-    col("type")
-)
-
 ## Hago el join de los dos archivos
 df_innerjoin_rental = df_rental.join(df_georef, df_rental["state_name"] == df_georef["usps_state_abbreviation"], 'inner')
 
-## Filtro que el rating sea mayor a cero y excluyo al Estado de Texas TX
-df_filtered_rating_zero = df_innerjoin_rental.filter(df_innerjoin_rental["rating"] != 0)
-df_filtered_texas = df_filtered_rating_zero.filter(df_filtered_rating_zero["state_name"] != "TX")
+## Filtro que el rating no sea nulo y excluyo al Estado de Texas TX
+df_filtered_rating = df_innerjoin_rental.filter(df_innerjoin_rental["rating"] != 0)
+df_filtered_texas = df_filtered_rating_zero.filter(lower(df_filtered_rating["state_name"]) != "tx")
 
 # Eliminamos las columnas que no son necesarias
 df_filtered_texas = df_filtered_texas.drop("country") \
@@ -84,8 +63,8 @@ df_filtered_texas = df_filtered_texas.drop("country") \
 ## Creo la vista de la BD
 df_filtered_texas.createOrReplaceTempView("v_analytics_data")
 
-## Creo el DF para el Insert
-df_insert_result = spark.sql("select fueltype as fuelType, cast(rating as int), cast(rentertripstaken as int) as renterTripsTaken, cast(reviewcount as int) as reviewCount, city, state_name, cast(owner_id as int), cast(rate_daily as int), make, model, cast(year as int) from v_analytics_data")
+## Creo el DF para el Insert seleccionando y casteando los campos necesarios
+df_insert_result = spark.sql("select fueltype as fuelType, cast(rating as int), cast(renterTripsTaken as int), cast(reviewCount as int), city, state_name, cast(owner_id as int), cast(rate_daily as int), make, model, cast(year as int) from v_analytics_data")
 
 ## Creo la vista para el insert
 df_insert_result.createOrReplaceTempView("v_insert")
